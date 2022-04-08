@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">CarpoolApp</string>
+    
+    <string-array name="spinnerType">
+        <item>Student</item>
+        <item>Staff</item>
+        <item>Parent</item>
+    </string-array>
 </resources>
