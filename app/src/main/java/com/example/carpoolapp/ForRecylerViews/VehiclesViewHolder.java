@@ -12,7 +12,6 @@ public class VehiclesViewHolder extends RecyclerView.ViewHolder implements View.
 
     protected TextView name;
     protected TextView vehicle;
-    protected TextView price;
     protected TextView seats;
 
     onVehicleListener onVehicleListener;
@@ -21,7 +20,6 @@ public class VehiclesViewHolder extends RecyclerView.ViewHolder implements View.
         super(itemView);
 
         vehicle = itemView.findViewById(R.id.vehicleTvRC);
-        price = itemView.findViewById(R.id.priceTVRC);
         seats = itemView.findViewById(R.id.seatsTvRC);
         this.onVehicleListener = onVehicleListener;
 

@@ -102,7 +102,8 @@ public class VehicleInfo extends AppCompatActivity implements VehiclesViewHolder
     @Override
     public void onVehicleClick(int position) {
         vehiclesList.get(position);
-        Intent intent = new Intent(this, SpecificVehicleInformation.class);
+        Intent intent = new Intent(this, SpecificVehicleInfo.class);
+        intent.putExtra("selected_vehicle", vehiclesList.get(position));
         startActivity(intent);
     }
 }
