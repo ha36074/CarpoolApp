@@ -10,10 +10,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CarpoolApp">
         <activity
-            android:name=".UserProfile"
+            android:name=".Activites.SpecificVehicleInformation"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".Activites.AddVehicle"
+            android:exported="false" />
+        <activity
+            android:name=".Activites.VehicleInfo"
+            android:exported="false" />
+        <activity
+            android:name=".Activites.UserProfile"
+            android:exported="false" />
+        <activity
+            android:name=".Activites.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
