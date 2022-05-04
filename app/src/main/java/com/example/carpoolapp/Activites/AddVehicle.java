@@ -1,9 +1,11 @@
 package com.example.carpoolapp.Activites;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -12,14 +14,20 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.example.carpoolapp.R;
+import com.example.carpoolapp.UserClasses.User;
 import com.example.carpoolapp.VehicleClasses.Bicycle;
 import com.example.carpoolapp.VehicleClasses.Car;
 import com.example.carpoolapp.VehicleClasses.Helicopter;
 import com.example.carpoolapp.VehicleClasses.Segway;
 import com.example.carpoolapp.VehicleClasses.Vehicle;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -37,6 +45,7 @@ public class AddVehicle extends AppCompatActivity {
     private EditText rangeCarAndSeg;
     private EditText maxAltitudeHeli;
     private EditText maxSpeedHeli;
+    private User myUser;
 
     private Spinner vehicleTypeSpinner;
     private String selectedType;
@@ -136,7 +145,6 @@ public class AddVehicle extends AppCompatActivity {
 
     public void addV(View v){
         ArrayList<String> ar = new ArrayList<>();
-        ar.add("n/a");
         DocumentReference newRideRef = firestore.collection("Vehicles").document();
         String vehicleId = newRideRef.getId();
 
@@ -167,7 +175,31 @@ public class AddVehicle extends AppCompatActivity {
             int weight = Integer.parseInt(weightCapcityBikeAndSeg.getText().toString());
             newVehicle = new Segway(o,m,vehicleId,c,ar,true,"segway",p,r,weight);
         }
+
+
         newRideRef.set(newVehicle);
+/*
+        TaskCompletionSource<String> updateOwnedVehicles = new TaskCompletionSource<>();
+        firestore.collection("userInfo").whereEqualTo("uid", mAuth.getUid())
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful() && task.getResult() != null) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        myUser = document.toObject(User.class);
+                    }
+                    updateOwnedVehicles.setResult(null);
+                }
+                else {
+                    Log.d("AddVehicle", "Error getting documents from db to make a user: ", task.getException());
+                }
+            }
+        });
+
+        myUser.addOwnedVehicle(newRideRef.toString());
+        firestore.collection("userInfo").document(mAuth.getUid())
+                .update("ownedVehicles", newRideRef);
+ */
     }
 
     public void backFromAddVehicle(View v){

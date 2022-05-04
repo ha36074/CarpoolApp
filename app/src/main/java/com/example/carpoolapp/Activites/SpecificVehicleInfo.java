@@ -1,17 +1,25 @@
 package com.example.carpoolapp.Activites;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.carpoolapp.R;
+import com.example.carpoolapp.UserClasses.User;
 import com.example.carpoolapp.VehicleClasses.Vehicle;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class SpecificVehicleInfo extends AppCompatActivity {
+public class SpecificVehicleInfo extends AppCompatActivity implements View.OnClickListener{
     private FirebaseAuth mAuth;
     private FirebaseFirestore firestore;
 
@@ -21,6 +29,8 @@ public class SpecificVehicleInfo extends AppCompatActivity {
     private TextView price;
     private TextView model;
     private TextView vehicleType;
+    private Button bookRideBT;
+    private Vehicle myVehicle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +60,49 @@ public class SpecificVehicleInfo extends AppCompatActivity {
             price.setText(mVehicle.getBasePrice()+"$");
             model.setText("Model: "+mVehicle.getModel());
             vehicleType.setText("Vehicle Type: "+mVehicle.getVehicleType());
+            myVehicle = mVehicle;
+        }
+        bookRideBT = findViewById(R.id.bookBT);
+        bookRideBT.setOnClickListener(this);
+    }
+
+    public void backToVehicleInfo(View view){
+        Intent mIntent = new Intent(this, VehicleInfo.class);
+        startActivity(mIntent);
+    }
+
+    public void bookRide(){
+        System.out.println("Vehicle: "+myVehicle.toString());
+        System.out.println("Remaking Capacity: "+myVehicle.getRemainingCap());
+        if(myVehicle.getRemainingCap() == 1){
+            firestore.collection("Vehicles").document(myVehicle.getVehicleID())
+                    .update("open", false);
+        }
+
+        firestore.collection("Vehicles").document(myVehicle.getVehicleID())
+                .update("remainingCap", myVehicle.getRemainingCap()-1);
+
+        //returning null value when entering it into the arraylist
+        System.out.println(mAuth.getUid());
+        myVehicle.addReservedUid(mAuth.getUid().toString());
+        System.out.println(myVehicle.getRidersUIDs());
+        firestore.collection("Vehicle").document(myVehicle.getVehicleID())
+                .update("ridersUIDs", myVehicle.getRidersUIDs())
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Intent mIntent = new Intent(getApplicationContext(), VehicleInfo.class);
+                        startActivity(mIntent);
+                        finish();
+                    }
+                });
+    }
+
+    @Override
+    public void onClick(View v) {
+        int i = v.getId();
+        if(i == bookRideBT.getId()) {
+            bookRide();
         }
     }
 }

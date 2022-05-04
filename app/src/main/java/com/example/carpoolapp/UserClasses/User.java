@@ -1,5 +1,7 @@
 package com.example.carpoolapp.UserClasses;
 
+import com.google.firebase.firestore.DocumentReference;
+
 import java.util.ArrayList;
 
 public class User {
@@ -88,5 +90,9 @@ public class User {
 
     public void setOwnedVehicles(ArrayList<String> ownedVehicles) {
         this.ownedVehicles = ownedVehicles;
+    }
+
+    public void addOwnedVehicle(String newRideRef) {
+        this.ownedVehicles.add(newRideRef);
     }
 }

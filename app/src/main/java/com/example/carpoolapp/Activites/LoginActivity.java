@@ -116,7 +116,6 @@ public class LoginActivity extends AppCompatActivity {
                     //SAME FOR CHILDREN AND PARENTS ONES
 
                     ArrayList<String> ar = new ArrayList<>();
-                    ar.add("n/a");
 
                     if(selectedOption.equals("Parent")){
                         Parent myUser = new Parent(mAuth.getUid().toString(), email, n, selectedOption, 0.25, ar, 100 , got);
