@@ -156,6 +156,7 @@ public class AddVehicle extends AppCompatActivity {
         double p = Double.parseDouble(price.getText().toString());
 
         if(selectedType.equals("Car")){
+            System.out.println("In car");
             int range = Integer.parseInt(rangeCarAndSeg.getText().toString());
             newVehicle = new Car(o,m,vehicleId, c, ar,true ,"car", p, range);
         }

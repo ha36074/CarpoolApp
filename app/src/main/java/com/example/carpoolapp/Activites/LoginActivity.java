@@ -24,6 +24,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -115,38 +116,26 @@ public class LoginActivity extends AppCompatActivity {
 
                     ArrayList<String> ar = new ArrayList<>();
 
+                    DocumentReference newUserRef = firestore.collection("userInfo").document();
+                    String userID = newUserRef.getId();
+
+                    User myUser = null;
+
                     if(selectedOption.equals("Parent")){
-                        Parent myUser = new Parent(mAuth.getUid().toString(), email, n, selectedOption, 0.25, ar, 100 , got);
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(n).build();
-                        user.updateProfile(profileUpdates);
-                        updateUI(user);
-                        firestore.collection("userInfo").document(mAuth.getUid()).set(myUser);
+                        myUser = new Parent(userID, email, n, selectedOption, 0.25, ar, 100 , got);
                     }
                     else if(selectedOption.equals("Alumni")){
-                        Alumni myUser = new Alumni(mAuth.getUid().toString(), email, n, selectedOption, 0.25, ar, 100, got);
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(n).build();
-                        user.updateProfile(profileUpdates);
-                        updateUI(user);
-                        firestore.collection("userInfo").document(mAuth.getUid()).set(myUser);
+                        myUser = new Alumni(userID, email, n, selectedOption, 0.25, ar, 100, got);
                     }
                     else if(selectedOption.equals("Student")){
-                        Student myUser = new Student(mAuth.getUid().toString(), email, n, selectedOption, 0, ar, 100, got);
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(n).build();
-                        user.updateProfile(profileUpdates);
-                        updateUI(user);
-                        firestore.collection("userInfo").document(mAuth.getUid()).set(myUser);
+                        myUser = new Student(userID, email, n, selectedOption, 0, ar, 100, got);
                     }
                     else if(selectedOption.equals("Staff")){
-                        Staff myUser = new Staff(mAuth.getUid().toString(), email, n, selectedOption, 0.25, ar, 100, got);
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(n).build();
-                        user.updateProfile(profileUpdates);
-                        updateUI(user);
-                        firestore.collection("userInfo").document(mAuth.getUid()).set(myUser);
+                        myUser = new Staff(userID, email, n, selectedOption, 0.25, ar, 100, got);
                     }
+                    newUserRef.set(myUser);
+                    Intent mIntent = new Intent(getApplicationContext(), UserProfile.class);
+                    startActivity(mIntent);
                 }
                 else{
                     Log.w("SIGN UP", "createUserWithEmail:failure", task.getException());
