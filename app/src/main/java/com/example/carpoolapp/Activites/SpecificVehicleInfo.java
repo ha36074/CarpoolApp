@@ -57,7 +57,7 @@ public class SpecificVehicleInfo extends AppCompatActivity implements View.OnCli
             Log.d(TAG, "onCreate: "+mVehicle.toString());
 
             owner.setText("Owner: "+mVehicle.getOwner());
-            capacity.setText(mVehicle.getCapacity()+" seats left");
+            capacity.setText(mVehicle.getRemainingCap()+" seats left");
             //Add the modifier
             price.setText(mVehicle.getBasePrice()+"$");
             model.setText("Model: "+mVehicle.getModel());

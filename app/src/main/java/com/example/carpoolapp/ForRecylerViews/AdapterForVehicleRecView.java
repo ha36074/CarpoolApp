@@ -36,7 +36,7 @@ public class AdapterForVehicleRecView extends RecyclerView.Adapter<VehiclesViewH
     @Override
     public void onBindViewHolder(@NonNull VehiclesViewHolder holder, int position) {
         System.out.println("In adapter "+mData.get(position).toString());
-        holder.seats.setText(mData.get(position).getCapacity()+" seats left");
+        holder.seats.setText(mData.get(position).getRemainingCap()+" seats left");
         holder.vehicle.setText(mData.get(position).getVehicleType());
 
     }
