@@ -22,6 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class SpecificVehicleInfo extends AppCompatActivity implements View.OnClickListener{
     private FirebaseAuth mAuth;
     private FirebaseFirestore firestore;
+    private FirebaseUser mUser;
 
     private static final String TAG = "SpecificVehicleInfo";
     private TextView owner;
@@ -30,6 +31,7 @@ public class SpecificVehicleInfo extends AppCompatActivity implements View.OnCli
     private TextView model;
     private TextView vehicleType;
     private Button bookRideBT;
+    private Button cancelRideBT;
     private Vehicle myVehicle;
 
     @Override
@@ -64,6 +66,8 @@ public class SpecificVehicleInfo extends AppCompatActivity implements View.OnCli
         }
         bookRideBT = findViewById(R.id.bookBT);
         bookRideBT.setOnClickListener(this);
+        cancelRideBT = findViewById(R.id.cancelSeatBT);
+        cancelRideBT.setOnClickListener(this);
     }
 
     public void backToVehicleInfo(View view){
@@ -73,7 +77,7 @@ public class SpecificVehicleInfo extends AppCompatActivity implements View.OnCli
 
     public void bookRide(){
         System.out.println("Vehicle: "+myVehicle.toString());
-        System.out.println("Remaking Capacity: "+myVehicle.getRemainingCap());
+        System.out.println("Remaining Capacity: "+myVehicle.getRemainingCap());
         if(myVehicle.getRemainingCap() == 1){
             firestore.collection("Vehicles").document(myVehicle.getVehicleID())
                     .update("open", false);
@@ -84,7 +88,7 @@ public class SpecificVehicleInfo extends AppCompatActivity implements View.OnCli
 
         //returning null value when entering it into the arraylist
         System.out.println(mAuth.getUid());
-        myVehicle.addReservedUid(mAuth.getUid().toString());
+        myVehicle.addReservedUid(mAuth.getUid());
         System.out.println(myVehicle.getRidersUIDs());
         firestore.collection("Vehicle").document(myVehicle.getVehicleID())
                 .update("ridersUIDs", myVehicle.getRidersUIDs())
@@ -103,6 +107,9 @@ public class SpecificVehicleInfo extends AppCompatActivity implements View.OnCli
         int i = v.getId();
         if(i == bookRideBT.getId()) {
             bookRide();
+        }
+        if(i == cancelRideBT.getId()){
+            //needed thing here
         }
     }
 }

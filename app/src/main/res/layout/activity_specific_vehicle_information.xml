@@ -81,6 +81,23 @@
         app:layout_constraintTop_toBottomOf="@+id/seatsLeftTV" />
 
     <Button
+        android:id="@+id/cancelSeatBT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:layout_marginBottom="18dp"
+        android:backgroundTint="#D5D5D5"
+        android:text="Cancel your seat"
+        android:textColor="#000000"
+        android:textSize="20dp"
+        app:cornerRadius="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/backToVehicleInfoFromArrListBT"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bookBT" />
+
+    <Button
         android:id="@+id/backToVehicleInfoFromArrListBT"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

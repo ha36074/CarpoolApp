@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -112,32 +113,37 @@ public class LoginActivity extends AppCompatActivity {
                 if(task.isSuccessful()){
                     Log.d("SIGN UP", "Successfully signed up the user");
 
-                    //NOTE FOR TESTING THE ARRAYLIST HAS NOTHING IN IT
-                    //SAME FOR CHILDREN AND PARENTS ONES
-
                     ArrayList<String> ar = new ArrayList<>();
 
                     if(selectedOption.equals("Parent")){
                         Parent myUser = new Parent(mAuth.getUid().toString(), email, n, selectedOption, 0.25, ar, 100 , got);
                         FirebaseUser user = mAuth.getCurrentUser();
+                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(n).build();
+                        user.updateProfile(profileUpdates);
                         updateUI(user);
                         firestore.collection("userInfo").document(mAuth.getUid()).set(myUser);
                     }
                     else if(selectedOption.equals("Alumni")){
                         Alumni myUser = new Alumni(mAuth.getUid().toString(), email, n, selectedOption, 0.25, ar, 100, got);
                         FirebaseUser user = mAuth.getCurrentUser();
+                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(n).build();
+                        user.updateProfile(profileUpdates);
                         updateUI(user);
                         firestore.collection("userInfo").document(mAuth.getUid()).set(myUser);
                     }
                     else if(selectedOption.equals("Student")){
                         Student myUser = new Student(mAuth.getUid().toString(), email, n, selectedOption, 0, ar, 100, got);
                         FirebaseUser user = mAuth.getCurrentUser();
+                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(n).build();
+                        user.updateProfile(profileUpdates);
                         updateUI(user);
                         firestore.collection("userInfo").document(mAuth.getUid()).set(myUser);
                     }
                     else if(selectedOption.equals("Staff")){
                         Staff myUser = new Staff(mAuth.getUid().toString(), email, n, selectedOption, 0.25, ar, 100, got);
                         FirebaseUser user = mAuth.getCurrentUser();
+                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(n).build();
+                        user.updateProfile(profileUpdates);
                         updateUI(user);
                         firestore.collection("userInfo").document(mAuth.getUid()).set(myUser);
                     }
