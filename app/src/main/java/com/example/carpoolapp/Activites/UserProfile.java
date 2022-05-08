@@ -40,7 +40,6 @@ public class UserProfile extends AppCompatActivity {
     }
 
     public void toVehicleInfo(View v){
-        FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(this, VehicleInfo.class);
         startActivity(intent);
     }

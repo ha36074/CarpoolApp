@@ -179,7 +179,6 @@ public class AddVehicle extends AppCompatActivity {
 
 
         newRideRef.set(newVehicle);
-/*
         TaskCompletionSource<String> updateOwnedVehicles = new TaskCompletionSource<>();
         firestore.collection("userInfo").whereEqualTo("uid", mAuth.getUid())
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -190,17 +189,15 @@ public class AddVehicle extends AppCompatActivity {
                         myUser = document.toObject(User.class);
                     }
                     updateOwnedVehicles.setResult(null);
+                    myUser.addOwnedVehicle(newRideRef.getId());
+                    firestore.collection("userInfo").document(mAuth.getUid())
+                            .update("ownedVehicles", newRideRef);
                 }
                 else {
                     Log.d("AddVehicle", "Error getting documents from db to make a user: ", task.getException());
                 }
             }
         });
-
-        myUser.addOwnedVehicle(newRideRef.toString());
-        firestore.collection("userInfo").document(mAuth.getUid())
-                .update("ownedVehicles", newRideRef);
- */
     }
 
     public void backFromAddVehicle(View v){

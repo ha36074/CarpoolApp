@@ -31,7 +31,7 @@ public class SpecificVehicleInfo extends AppCompatActivity implements View.OnCli
     private TextView model;
     private TextView vehicleType;
     private Button bookRideBT;
-    private Button cancelRideBT;
+    private Button cancelRideBT; //establish this with layout button.
     private Vehicle myVehicle;
 
     @Override
@@ -66,8 +66,6 @@ public class SpecificVehicleInfo extends AppCompatActivity implements View.OnCli
         }
         bookRideBT = findViewById(R.id.bookBT);
         bookRideBT.setOnClickListener(this);
-        cancelRideBT = findViewById(R.id.cancelSeatBT);
-        cancelRideBT.setOnClickListener(this);
     }
 
     public void backToVehicleInfo(View view){
@@ -86,11 +84,10 @@ public class SpecificVehicleInfo extends AppCompatActivity implements View.OnCli
         firestore.collection("Vehicles").document(myVehicle.getVehicleID())
                 .update("remainingCap", myVehicle.getRemainingCap()-1);
 
-        //returning null value when entering it into the arraylist
         System.out.println(mAuth.getUid());
         myVehicle.addReservedUid(mAuth.getUid());
-        System.out.println(myVehicle.getRidersUIDs());
-        firestore.collection("Vehicle").document(myVehicle.getVehicleID())
+        System.out.println("The UIDS: "+myVehicle.getRidersUIDs());
+        firestore.collection("Vehicles").document(myVehicle.getVehicleID())
                 .update("ridersUIDs", myVehicle.getRidersUIDs())
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -107,9 +104,6 @@ public class SpecificVehicleInfo extends AppCompatActivity implements View.OnCli
         int i = v.getId();
         if(i == bookRideBT.getId()) {
             bookRide();
-        }
-        if(i == cancelRideBT.getId()){
-            //needed thing here
         }
     }
 }
