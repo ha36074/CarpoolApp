@@ -180,24 +180,27 @@ public class AddVehicle extends AppCompatActivity {
 
         newRideRef.set(newVehicle);
         TaskCompletionSource<String> updateOwnedVehicles = new TaskCompletionSource<>();
-        firestore.collection("userInfo").whereEqualTo("uid", mAuth.getUid())
+        System.out.println("UserID: "+mAuth.getUid());
+        firestore.collection("userInfo").whereEqualTo("uid", mAuth.getUid().toString())
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful() && task.getResult() != null) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
+                        System.out.println("In the construction of user.");
                         myUser = document.toObject(User.class);
+                        System.out.println(myUser.toString());
                     }
                     updateOwnedVehicles.setResult(null);
-                    myUser.addOwnedVehicle(newRideRef.getId());
-                    firestore.collection("userInfo").document(mAuth.getUid())
-                            .update("ownedVehicles", newRideRef);
                 }
                 else {
                     Log.d("AddVehicle", "Error getting documents from db to make a user: ", task.getException());
                 }
             }
         });
+        myUser.addOwnedVehicle(newRideRef.getId());
+        firestore.collection("userInfo").document(mAuth.getUid())
+                .update("ownedVehicles", newRideRef);
     }
 
     public void backFromAddVehicle(View v){

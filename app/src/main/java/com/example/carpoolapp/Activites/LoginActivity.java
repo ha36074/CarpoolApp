@@ -122,16 +122,16 @@ public class LoginActivity extends AppCompatActivity {
                     User myUser = null;
 
                     if(selectedOption.equals("Parent")){
-                        myUser = new Parent(userID, email, n, selectedOption, 0.25, ar, 100 , got);
+                        myUser = new Parent(userID, email, n, selectedOption, 1.25, ar, 100 , got);
                     }
                     else if(selectedOption.equals("Alumni")){
-                        myUser = new Alumni(userID, email, n, selectedOption, 0.25, ar, 100, got);
+                        myUser = new Alumni(userID, email, n, selectedOption, 1.25, ar, 100, got);
                     }
                     else if(selectedOption.equals("Student")){
                         myUser = new Student(userID, email, n, selectedOption, 0, ar, 100, got);
                     }
                     else if(selectedOption.equals("Staff")){
-                        myUser = new Staff(userID, email, n, selectedOption, 0.25, ar, 100, got);
+                        myUser = new Staff(userID, email, n, selectedOption, 1.25, ar, 100, got);
                     }
                     newUserRef.set(myUser);
                     Intent mIntent = new Intent(getApplicationContext(), UserProfile.class);
