@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public class Staff extends User{
     private String inSchoolTitle;
 
-    public Staff(String uid, String email, String name, String userType, double priceMultiplier, ArrayList<String> ownedVehicles, double money, String inSchoolTitle) {
-        super(uid, email, name, userType, priceMultiplier, ownedVehicles, money);
+    public Staff(String uid, String email, String name, String userType, double priceMultiplier, ArrayList<String> ownedVehicles, double money, String aID, String inSchoolTitle) {
+        super(uid, email, name, userType, priceMultiplier, ownedVehicles, money, aID);
         this.inSchoolTitle = inSchoolTitle;
     }
 

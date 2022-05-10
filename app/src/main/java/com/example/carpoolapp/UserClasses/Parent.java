@@ -6,8 +6,8 @@ public class Parent extends User{
     //private ArrayList<String> childrensUIDs;
     private String pts;
 
-    public Parent(String uid, String email, String name, String userType, double priceMultiplier, ArrayList<String> ownedVehicles, double money, String pts) {
-        super(uid, email, name, userType, priceMultiplier, ownedVehicles, money);
+    public Parent(String uid, String email, String name, String userType, double priceMultiplier, ArrayList<String> ownedVehicles, double money, String aID, String pts) {
+        super(uid, email, name, userType, priceMultiplier, ownedVehicles, money, aID);
         //this.childrensUIDs = childrensUIDs;
         this.pts = pts;
     }

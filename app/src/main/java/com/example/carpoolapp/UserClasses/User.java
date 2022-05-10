@@ -12,8 +12,11 @@ public class User {
     private double priceMultiplier;
     private ArrayList<String> ownedVehicles;
     private double money;
+    private String authID;
 
-    public User(String uid, String email, String name, String userType, double priceMultiplier, ArrayList<String> ownedVehicles, double m) {
+    public User(){}
+
+    public User(String uid, String email, String name, String userType, double priceMultiplier, ArrayList<String> ownedVehicles, double m, String aID) {
         this.uid = uid;
         this.email = email;
         this.name = name;
@@ -21,7 +24,10 @@ public class User {
         this.priceMultiplier = priceMultiplier;
         this.ownedVehicles = ownedVehicles;
         this.money = m;
+        this.authID = aID;
     }
+
+
 
     @Override
     public String toString() {
@@ -57,6 +63,14 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAuthID() {
+        return authID;
+    }
+
+    public void setAuthID(String aID) {
+        this.authID = aID;
     }
 
     public String getUserType() {

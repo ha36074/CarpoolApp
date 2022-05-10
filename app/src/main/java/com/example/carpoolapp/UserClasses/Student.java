@@ -6,8 +6,8 @@ public class Student extends User{
     private String graduatingYear;
     //private ArrayList<String> parentsUIDs;
 
-    public Student(String uid, String email, String name, String userType, double priceMultiplier, ArrayList<String> ownedVehicles, double money, String graduatingYear) {
-        super(uid, email, name, userType, priceMultiplier, ownedVehicles, money);
+    public Student(String uid, String email, String name, String userType, double priceMultiplier, ArrayList<String> ownedVehicles, double money, String aID, String graduatingYear) {
+        super(uid, email, name, userType, priceMultiplier, ownedVehicles, money, aID);
         this.graduatingYear = graduatingYear;
         //this.parentsUIDs = parentsUIDs;
     }

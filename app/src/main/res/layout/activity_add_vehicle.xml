@@ -53,7 +53,7 @@
         android:layout_marginBottom="30dp"
         android:backgroundTint="#D8D6DA"
         android:onClick="backFromAddVehicle"
-        android:text="Back"
+        android:text="back"
         android:textColor="#000000"
         android:textSize="14sp"
         app:cornerRadius="15dp"

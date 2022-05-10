@@ -24,6 +24,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -147,6 +148,7 @@ public class AddVehicle extends AppCompatActivity {
         ArrayList<String> ar = new ArrayList<>();
         DocumentReference newRideRef = firestore.collection("Vehicles").document();
         String vehicleId = newRideRef.getId();
+        FirebaseUser currUser = mAuth.getCurrentUser();
 
         Vehicle newVehicle = null;
 
@@ -177,20 +179,23 @@ public class AddVehicle extends AppCompatActivity {
             newVehicle = new Segway(o,m,vehicleId,c,ar,true,"segway",p,r,weight);
         }
 
-
         newRideRef.set(newVehicle);
+        System.out.println("AuthID "+mAuth.getUid().toString());
         TaskCompletionSource<String> updateOwnedVehicles = new TaskCompletionSource<>();
-        System.out.println("UserID: "+mAuth.getUid());
-        firestore.collection("userInfo").whereEqualTo("uid", mAuth.getUid().toString())
+        firestore.collection("userInfo").whereEqualTo("authID", currUser.getUid())
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                System.out.println("Task result: "+task.getResult());
                 if (task.isSuccessful() && task.getResult() != null) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         System.out.println("In the construction of user.");
                         myUser = document.toObject(User.class);
                         System.out.println(myUser.toString());
                     }
+                    myUser.addOwnedVehicle(newRideRef.getId());
+                    firestore.collection("userInfo").document(myUser.getUid())
+                            .update("ownedVehicles", myUser.getOwnedVehicles());
                     updateOwnedVehicles.setResult(null);
                 }
                 else {
@@ -198,9 +203,6 @@ public class AddVehicle extends AppCompatActivity {
                 }
             }
         });
-        myUser.addOwnedVehicle(newRideRef.getId());
-        firestore.collection("userInfo").document(mAuth.getUid())
-                .update("ownedVehicles", newRideRef);
     }
 
     public void backFromAddVehicle(View v){
