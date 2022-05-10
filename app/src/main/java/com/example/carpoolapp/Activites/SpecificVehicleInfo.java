@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -42,16 +43,13 @@ public class SpecificVehicleInfo extends AppCompatActivity implements View.OnCli
     private double mod;
     private double prices;
 
-    private LinearLayout layout;
-    private Button closeYourCar;
-    private Button closeYourRide;
+    private Button closeYourCarBT;
+    private Button closeYourRideBT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_specific_vehicle_information);
-
-        layout = findViewById(R.id.linearLayoutSpecificVehicle);
 
         mAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
@@ -61,6 +59,11 @@ public class SpecificVehicleInfo extends AppCompatActivity implements View.OnCli
         price = findViewById(R.id.priceTV);
         model = findViewById(R.id.modelTV);
         vehicleType = findViewById(R.id.vehicleTypeTV);
+        closeYourRideBT = findViewById(R.id.deleteRideBT);
+        closeYourCarBT = findViewById(R.id.deleteCarBT);
+
+        closeYourCarBT.setOnClickListener(this);
+        closeYourRideBT.setOnClickListener(this);
         setUp();
     }
 
@@ -100,14 +103,10 @@ public class SpecificVehicleInfo extends AppCompatActivity implements View.OnCli
                     myVehicle = mVehicle;
 
                     if(myUser.getOwnedVehicles().contains(mVehicle.getVehicleID())){
-                        closeYourCar = new Button(getApplicationContext());
-                        closeYourCar.setText("Close this Car");
-                        layout.addView(closeYourCar);
+                        closeYourCarBT.setVisibility(View.VISIBLE);
                     }
                     if(myVehicle.getRidersUIDs().contains(mAuth.getUid())){
-                        closeYourRide = new Button(getApplicationContext());
-                        closeYourRide.setText("Cancel Ride");
-                        layout.addView(closeYourRide);
+                        closeYourRideBT.setVisibility(View.VISIBLE);
                     }
                 }
             }
@@ -133,7 +132,7 @@ public class SpecificVehicleInfo extends AppCompatActivity implements View.OnCli
         firestore.collection("Vehicles").document(myVehicle.getVehicleID())
                 .update("remainingCap", myVehicle.getRemainingCap()-1);
 
-        firestore.collection("userInfo").document(mAuth.getUid())
+        firestore.collection("userInfo").document(myUser.getUid())
                 .update("money", myUser.getMoney()-prices);
 
         System.out.println(mAuth.getUid());
@@ -159,13 +158,16 @@ public class SpecificVehicleInfo extends AppCompatActivity implements View.OnCli
 
     public void cancelRide(){
         System.out.println("In close ride");
-        for(int i = myVehicle.getRidersUIDs().size(); i>=0; i--){
+        for(int i = myVehicle.getRidersUIDs().size()-1; i>=0; i--){
             if(myVehicle.getRidersUIDs().get(i).equals(mAuth.getUid())){
                 myVehicle.getRidersUIDs().remove(i);
             }
         }
         firestore.collection("Vehicles").document(myVehicle.getVehicleID())
                 .update("ridersUIDs", myVehicle.getRidersUIDs());
+
+        firestore.collection("Vehicles").document(myVehicle.getVehicleID())
+                .update("remainingCap", myVehicle.getRemainingCap()+1);
     }
 
     @Override
@@ -174,10 +176,10 @@ public class SpecificVehicleInfo extends AppCompatActivity implements View.OnCli
         if(i == bookRideBT.getId()) {
             bookRide();
         }
-        if(i == closeYourCar.getId()){
+        else if(i == closeYourCarBT.getId()){
             closeCar();
         }
-        if(i == closeYourRide.getId()){
+        else if(i == closeYourRideBT.getId()){
             cancelRide();
         }
     }

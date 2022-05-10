@@ -1,15 +1,19 @@
 package com.example.carpoolapp.Activites;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
@@ -32,7 +36,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class AddVehicle extends AppCompatActivity {
+public class AddVehicle extends AppCompatActivity implements View.OnClickListener{
+    private static final int RESULT_LOAD_IMAGE = 1;
+
     private FirebaseAuth mAuth;
     private FirebaseFirestore firestore;
     private LinearLayout layout;
@@ -47,6 +53,7 @@ public class AddVehicle extends AppCompatActivity {
     private EditText maxAltitudeHeli;
     private EditText maxSpeedHeli;
     private User myUser;
+    private ImageView myImage;
 
     private Spinner vehicleTypeSpinner;
     private String selectedType;
@@ -61,6 +68,9 @@ public class AddVehicle extends AppCompatActivity {
         layout = findViewById(R.id.linearLayoutCreateVehicle);
         vehicleTypeSpinner = findViewById(R.id.vehicleTypeSpinner);
         setupSpinner();
+
+        myImage = findViewById(R.id.imageToUpload);
+        myImage.setOnClickListener(this);
     }
 
     private void setupSpinner(){
@@ -210,4 +220,21 @@ public class AddVehicle extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    public void onClick(View v) {
+        int i = v.getId();
+        if(i == myImage.getId()) {
+            Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data!=null){
+            Uri selectedImage = data.getData();
+            myImage.setImageURI(selectedImage);
+        }
+    }
 }

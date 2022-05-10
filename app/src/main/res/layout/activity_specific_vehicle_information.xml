@@ -84,7 +84,8 @@
         android:id="@+id/backToVehicleInfoFromArrListBT"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="8dp"
         android:backgroundTint="#D5D5D5"
         android:onClick="backToVehicleInfo"
         android:text="back"
@@ -92,17 +93,38 @@
         android:textSize="20dp"
         app:cornerRadius="15dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutSpecificVehicle" />
+        app:layout_constraintTop_toBottomOf="@+id/bookBT" />
 
-    <LinearLayout
-        android:id="@+id/linearLayoutSpecificVehicle"
-        android:layout_width="159dp"
-        android:layout_height="113dp"
+    <Button
+        android:id="@+id/deleteRideBT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="6dp"
-        android:orientation="vertical"
+        android:backgroundTint="#D5D5D5"
+        android:text="Cancel Ride"
+        android:textColor="#000000"
+        android:textSize="20dp"
+        android:visibility="gone"
+        app:cornerRadius="15dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bookBT"></LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/deleteCarBT" />
+
+    <Button
+        android:id="@+id/deleteCarBT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="#D5D5D5"
+        android:text="Close Car"
+        android:textColor="#000000"
+        android:textSize="20dp"
+        android:visibility="gone"
+        app:cornerRadius="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bookBT" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
